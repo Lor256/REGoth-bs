@@ -18,7 +18,17 @@ namespace REGoth
   class Sky : public bs::Component
   {
   public:
-    Sky(const bs::HSceneObject& parent, HGameWorld gameWorld, const bs::Color& skyColor);
+    /**
+     * The utilised render mode, i.e. render the sky as a textured dome or a plane.
+     */
+    enum class RenderMode
+    {
+      Dome,
+      Plane
+    };
+
+    Sky(const bs::HSceneObject& parent, HGameWorld gameWorld, const RenderMode& renderMode,
+        const bs::Color& skyColor);
     virtual ~Sky() override;
 
     void onInitialized() override;
@@ -30,6 +40,7 @@ namespace REGoth
 
     bs::SPtr<SkyColoring> mSkyColoring;
     HGameWorld mGameWorld;
+    const RenderMode mRenderMode = RenderMode::Plane;
     const bs::Color mSkyColor;
 
   public:

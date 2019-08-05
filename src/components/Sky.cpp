@@ -8,15 +8,23 @@
 #include <components/GameClock.hpp>
 #include <components/GameWorld.hpp>
 #include <components/SkyColoring.hpp>
+#include <exception/Throw.hpp>
 
 namespace REGoth
 {
-  Sky::Sky(const bs::HSceneObject& parent, HGameWorld gameWorld, const bs::Color& skyColor)
-      : bs::Component(parent)
-      , mGameWorld(gameWorld)
+  Sky::Sky(const bs::HSceneObject& parent, HGameWorld gameWorld, const RenderMode& renderMode,
+           const bs::Color& skyColor)
+      : bs::Component{parent}
+      , mGameWorld{gameWorld}
+      , mRenderMode{renderMode}
       , mSkyColor{skyColor}
   {
     setName("Sky");
+
+    if (renderMode == RenderMode::Dome)
+    {
+      REGOTH_THROW(NotImplementedException, "Dome sky not yet implemented.");
+    }
   }
 
   Sky::~Sky()
