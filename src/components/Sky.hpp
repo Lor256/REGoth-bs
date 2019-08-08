@@ -4,11 +4,10 @@
 #include <Scene/BsComponent.h>
 
 #include <RTTI/RTTIUtil.hpp>
+#include <components/SkyStateGenerator.hpp>
 
 namespace REGoth
 {
-  class SkyColoring;
-
   class GameWorld;
   using HGameWorld = bs::GameObjectHandle<GameWorld>;
 
@@ -31,17 +30,15 @@ namespace REGoth
         const bs::Color& skyColor);
     virtual ~Sky() override;
 
-    void onInitialized() override;
-
     void update() override;
 
   private:
-    void applySkySettingsToCamera() const;
+    void renderFog(const bs::Color& color, float fogNear, float fogFar) const;
+    void renderSky() const;
 
-    bs::SPtr<SkyColoring> mSkyColoring;
+    SkyStateGenerator mSkyStateGen{bs::Color{}, bs::String{}};
     HGameWorld mGameWorld;
     const RenderMode mRenderMode = RenderMode::Plane;
-    const bs::Color mSkyColor;
 
   public:
     REGOTH_DECLARE_RTTI(Sky)
